@@ -1,18 +1,17 @@
-plugins {
-    application
-}
-
-subprojects {
+allprojects {
 
     repositories {
         mavenCentral()
     }
 
-    dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-    }
-
-    tasks.test {
+    tasks.withType<Test> {
         useJUnitPlatform()
+        testLogging {
+            showStandardStreams = true
+            showCauses = true
+            showStackTraces = true
+            events(*org.gradle.api.tasks.testing.logging.TestLogEvent.values())
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
     }
 }
