@@ -4,6 +4,7 @@ kotest = "5.8.0"
 
 [libraries]
 jackson = { module="com.fasterxml.jackson.module:jackson-module-kotlin", version ="2.16.1" }
+jackson-data-format = {module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version = "2.16.1"}
 kafka-client = { module = "org.apache.kafka:kafka-clients", version = "3.6.1"}
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }

@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation(libs.kafka.client)
     implementation(libs.jackson)
+    implementation(libs.jackson.data.format)
     testImplementation(libs.bundles.kotlin.testing)
 }
 
