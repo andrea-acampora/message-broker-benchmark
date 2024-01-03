@@ -1,0 +1,19 @@
+replicationFactor: 3
+
+topicConfig: |
+  min.insync.replicas=2
+  flush.messages=1
+  flush.ms=0
+
+commonConfig: |
+  bootstrap.servers=localhost:9092
+
+producerConfig: |
+  acks=all
+  linger.ms=1
+  batch.size=1048576
+
+consumerConfig: |
+  auto.offset.reset=earliest
+  enable.auto.commit=false
+  max.partition.fetch.bytes=10485760
