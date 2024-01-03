@@ -7,6 +7,7 @@ plugins {
 
 dependencies {
     implementation(libs.pulsar.client)
+    implementation(libs.jackson)
     testImplementation(libs.bundles.kotlin.testing)
 }
 
