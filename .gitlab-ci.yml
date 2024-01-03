@@ -1,14 +1,17 @@
 image: gradle:latest
 
-stages:
-  - build
-  - test
+variables:
+  GOPTS: "--no-daemon --console=plain --stacktrace"
+  BEFORE_TASK: "clean"
+  AFTER_TASK: ""
+  GCMD: "gradle"
+  BUILD_TASK: "assemble"
+  TEST_TASK: "check"
 
-build-job:     
+Compile:
   stage: build
-  script: ./gradlew build
+  script: $GCMD $BEFORE_TASK $BUILD_TASK $AFTER_TASK $GOPTS
 
-
-test-job:
+Test:
   stage: test
-  script: ./gradlew clean check
+  script: $GCMD $BEFORE_TASK $TEST_JVM_TASK $AFTER_TASK $GOPTS
