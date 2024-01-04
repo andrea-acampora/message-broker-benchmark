@@ -24,12 +24,11 @@ class PulsarConsumer(
         .subscriptionType(configuration.subscriptionType)
         .subscriptionName(configuration.subscriptionName)
         .topic(topicName)
-        .messageListener(messageListener)
         .subscribe()
 
     fun receive() {
         consumer.receiveAsync().thenAccept {
-            println("Message: $it")
+            println("Message: " + String(it.data))
             consumer.acknowledge(it)
         }
     }

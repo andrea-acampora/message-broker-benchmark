@@ -26,10 +26,11 @@ fun main() {
             .listenerThreads(Runtime.getRuntime().availableProcessors())
             .build()
 
-        val topicName = "prova"
+        val topicName = "base_communication"
+
         val producer = PulsarProducer(client, pulsarConfiguration.producerConfiguration, topicName)
         val consumer = PulsarConsumer(client, pulsarConfiguration.consumerConfiguration, topicName)
-        consumer.receive()
         producer.sendMessage("Hello World!")
+        consumer.receive()
     }
 }

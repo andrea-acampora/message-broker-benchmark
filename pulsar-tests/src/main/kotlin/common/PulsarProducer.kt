@@ -12,6 +12,7 @@ class PulsarProducer(
 
     private val producer: Producer<ByteArray> =
         client.newProducer()
+            .blockIfQueueFull(configuration.blockIfQueueFull)
             .topic(topicName)
             .create()
 
