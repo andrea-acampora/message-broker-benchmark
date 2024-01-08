@@ -8,7 +8,7 @@ import com.rabbitmq.client.DeliverCallback
 import java.nio.charset.Charset
 
 class RabbitMQConsumer(
-    private val queueName: String = "queue-1"
+    private val queueName: String
 ) {
     private val factory = ConnectionFactory()
 

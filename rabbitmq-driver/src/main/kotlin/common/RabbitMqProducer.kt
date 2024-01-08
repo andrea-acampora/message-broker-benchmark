@@ -6,7 +6,7 @@ import com.rabbitmq.client.ConnectionFactory
 import java.nio.charset.StandardCharsets
 
 class RabbitMQProducer(
-    private val queueName: String = "queue-1"
+    private val queueName: String
 ) {
 
     private val factory = ConnectionFactory()

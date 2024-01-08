@@ -1,4 +1,4 @@
-replicationFactor: 3
+replicationFactor: 1
 
 topicConfig: |
   min.insync.replicas=2

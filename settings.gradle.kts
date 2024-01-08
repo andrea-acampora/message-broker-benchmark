@@ -5,6 +5,7 @@ plugins {
 include("kafka-driver")
 include("pulsar-driver")
 include("rabbitmq-driver")
+include("benchmark")
 
 rootProject.name = "ds-project-acampora-accursi-ay22"
 

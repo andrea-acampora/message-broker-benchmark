@@ -5,7 +5,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.Properties
 
-class Producer(
+class KafkaProducer(
     properties: Properties,
     private val topic: NewTopic
 ) {
@@ -18,7 +18,8 @@ class Producer(
         println("[Kafka Producer] sent message: $message")
     }
 
-    private fun close() {
+    fun close() {
+        println("[Kafka Producer] closing...")
         producer.close()
     }
 }
