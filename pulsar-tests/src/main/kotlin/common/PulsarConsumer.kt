@@ -1,7 +1,6 @@
 package common
 
 import common.config.ConsumerConfiguration
-import org.apache.pulsar.client.api.MessageListener
 import org.apache.pulsar.client.api.PulsarClient
 
 class PulsarConsumer(
@@ -10,32 +9,22 @@ class PulsarConsumer(
     topicName: String
 ) {
 
-    private val messageListener: MessageListener<ByteArray> =
-        MessageListener { consumer, msg ->
-            try {
-                println("Message received: $msg")
-                consumer.acknowledge(msg)
-            } catch (ex: Exception) {
-                consumer.negativeAcknowledge(msg)
-            }
-        }
-
     private val consumer = client.newConsumer()
         .subscriptionType(configuration.subscriptionType)
         .subscriptionName(configuration.subscriptionName)
         .topic(topicName)
         .subscribe()
 
-    fun receive() {
+    fun consume() {
         consumer.receiveAsync().thenAccept {
-            println("Message: " + String(it.data))
+            println("[Pulsar Consumer]: Received Message: " + String(it.data))
             consumer.acknowledge(it)
         }
     }
 
     fun close() {
         consumer.closeAsync().thenRun {
-            println("Consumer closed..")
+            println("[Pulsar Consumer] closing..")
         }.exceptionally {
             throw it
         }

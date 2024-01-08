@@ -17,13 +17,14 @@ class PulsarProducer(
             .create()
 
     fun sendMessage(message: String) {
-        println("Producer sending message: $message")
-        producer.sendAsync(message.encodeToByteArray())
+        producer.sendAsync(message.encodeToByteArray()).thenRun {
+            println("[Pulsar Producer] sent message: $message")
+        }
     }
 
     fun close() {
         producer.closeAsync().thenRun {
-            println("Producer closed..")
+            println("[Pulsar Producer] closing..")
         }.exceptionally {
             throw it
         }

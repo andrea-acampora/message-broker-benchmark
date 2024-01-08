@@ -31,6 +31,6 @@ fun main() {
         val producer = PulsarProducer(client, pulsarConfiguration.producerConfiguration, topicName)
         val consumer = PulsarConsumer(client, pulsarConfiguration.consumerConfiguration, topicName)
         producer.sendMessage("Hello World!")
-        consumer.receive()
+        consumer.consume()
     }
 }

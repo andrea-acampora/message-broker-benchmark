@@ -5,8 +5,9 @@ import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DeliverCallback
 import java.nio.charset.Charset
 
-class RabbitMQConsumer {
-    private val queueName = "simpleQueue"
+class RabbitMQConsumer(
+    private val queueName: String = "queue-1"
+) {
     private val factory = ConnectionFactory()
 
     init {
@@ -17,12 +18,16 @@ class RabbitMQConsumer {
     private val channel: Channel = connection.createChannel()
 
     fun consume() {
-        channel.queueDeclare(queueName, false, false, false, null)
-
+        channel.queueDeclare(queueName, false, false, true, null)
         val callback = DeliverCallback { _, delivery ->
                 val message = String(delivery.body, Charset.defaultCharset())
-                println("Received message number $message")
+                println("[RabbitMQ Consumer]: Received message: $message")
         }
         channel.basicConsume(queueName, callback, CancelCallback {  })
+    }
+
+    fun close() {
+        channel.close()
+        connection.close()
     }
 }

@@ -1,11 +1,12 @@
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
-import java.io.IOException
 import java.nio.charset.StandardCharsets
 
-class RabbitMQProducer {
-    private val queueName = "simpleQueue"
+class RabbitMQProducer(
+    private val queueName: String = "queue-1"
+) {
+
     private val factory = ConnectionFactory()
 
     init {
@@ -13,21 +14,18 @@ class RabbitMQProducer {
     }
 
     private val connection: Connection = factory.newConnection()
-    private val channel: Channel = connection.createChannel()
+    private val channel: Channel = connection.createChannel().also {
+        it.queueDeclare(queueName, false, false, true, null)
+    }
 
-    fun produce() {
-        channel.queueDeclare(queueName, false, false, false, null)
-        Thread{
-            (1..5).forEach { num ->
-                channel.basicPublish("", queueName, null, num.toString().toByteArray(StandardCharsets.UTF_8))
-                println(" sent message number '$num'")
-            }
-        }.start()
+    fun produce(message: String) {
+        channel.basicPublish("", queueName, null, message.toByteArray(StandardCharsets.UTF_8))
+        println("[RabbitMQ Producer] sent message: $message")
     }
 
     fun close(){
+        channel.queuePurge(queueName)
         channel.close()
         connection.close()
     }
 }
-
