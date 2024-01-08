@@ -1,5 +1,3 @@
-package `00-pingpong`
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -30,6 +28,7 @@ fun main() {
 
         val producer = PulsarProducer(client, pulsarConfiguration.producerConfiguration, topicName)
         val consumer = PulsarConsumer(client, pulsarConfiguration.consumerConfiguration, topicName)
+
         producer.sendMessage("Hello World!")
         consumer.consume()
     }

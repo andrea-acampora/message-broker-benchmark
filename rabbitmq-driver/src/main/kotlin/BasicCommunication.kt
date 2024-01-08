@@ -1,3 +1,6 @@
+import common.RabbitMQConsumer
+import common.RabbitMQProducer
+
 fun main(){
 
     val producer = RabbitMQProducer()

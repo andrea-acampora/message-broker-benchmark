@@ -1,3 +1,5 @@
+package common
+
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection

@@ -2,9 +2,9 @@ plugins {
     id("com.gradle.enterprise") version "3.16.1"
 }
 
-include("kafka-tests")
-include("pulsar-tests")
-include("rabbitmq-tests")
+include("kafka-driver")
+include("pulsar-driver")
+include("rabbitmq-driver")
 
 rootProject.name = "ds-project-acampora-accursi-ay22"
 

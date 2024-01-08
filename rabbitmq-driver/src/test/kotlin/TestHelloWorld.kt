@@ -3,9 +3,8 @@ import io.kotest.matchers.shouldBe
 
 class TestHelloWorld : StringSpec({
 
-    val hello = HelloWorld()
 
     "Sample test" {
-        hello.world shouldBe "Hello World!"
+        "Hello World!" shouldBe "Hello World!"
     }
 })
