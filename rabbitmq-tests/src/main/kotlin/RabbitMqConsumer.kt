@@ -1,40 +1,28 @@
-import com.rabbitmq.client.AMQP
+import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.Consumer
-import com.rabbitmq.client.DefaultConsumer
-import com.rabbitmq.client.Envelope
-import java.io.IOException
-import java.nio.charset.StandardCharsets
+import com.rabbitmq.client.DeliverCallback
+import java.nio.charset.Charset
 
 class RabbitMQConsumer {
-    private val QUEUE_NAME = "hello"
+    private val queueName = "simpleQueue"
+    private val factory = ConnectionFactory()
+
+    init {
+        factory.host = "localhost"
+    }
+
+    private val connection: Connection = factory.newConnection()
+    private val channel: Channel = connection.createChannel()
 
     fun consume() {
-        val factory = ConnectionFactory()
-        factory.host = "localhost"
+        channel.queueDeclare(queueName, false, false, false, null)
 
-        try {
-            val connection: Connection = factory.newConnection()
-            val channel: Channel = connection.createChannel()
-
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null)
-
-            val consumer: Consumer = object : DefaultConsumer(channel) {
-                @Throws(IOException::class)
-                override fun handleDelivery(
-                    consumerTag: String, envelope: Envelope,
-                    properties: AMQP.BasicProperties, body: ByteArray
-                ) {
-                    val message = String(body, StandardCharsets.UTF_8)
-                    println(" [x] Received '$message'")
-                }
-            }
-
-            channel.basicConsume(QUEUE_NAME, true, consumer)
-        } catch (e: IOException) {
-            e.printStackTrace()
+        val callback = DeliverCallback { _, delivery ->
+                val message = String(delivery.body, Charset.defaultCharset())
+                println("Received message number $message")
         }
+        channel.basicConsume(queueName, callback, CancelCallback {  })
     }
 }

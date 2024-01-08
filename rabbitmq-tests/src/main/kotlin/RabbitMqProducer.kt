@@ -5,26 +5,29 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 class RabbitMQProducer {
-    private val QUEUE_NAME = "hello"
+    private val queueName = "simpleQueue"
+    private val factory = ConnectionFactory()
 
-    fun produce(message: String) {
-        val factory = ConnectionFactory()
-        factory.host = "localhost" // Assicurati di inserire l'indirizzo corretto del tuo server RabbitMQ
+    init {
+        factory.host = "localhost"
+    }
 
-        try {
-            val connection: Connection = factory.newConnection()
-            val channel: Channel = connection.createChannel()
+    private val connection: Connection = factory.newConnection()
+    private val channel: Channel = connection.createChannel()
 
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null)
-            channel.basicPublish("", QUEUE_NAME, null, message.toByteArray(StandardCharsets.UTF_8))
+    fun produce() {
+        channel.queueDeclare(queueName, false, false, false, null)
+        Thread{
+            (1..5).forEach { num ->
+                channel.basicPublish("", queueName, null, num.toString().toByteArray(StandardCharsets.UTF_8))
+                println(" sent message number '$num'")
+            }
+        }.start()
+    }
 
-            println(" [x] Sent '$message'")
-
-            channel.close()
-            connection.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+    fun close(){
+        channel.close()
+        connection.close()
     }
 }
 
