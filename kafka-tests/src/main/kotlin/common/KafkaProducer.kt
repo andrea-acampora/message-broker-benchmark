@@ -12,9 +12,9 @@ class Producer(properties: Properties, private val topic: NewTopic) {
     fun sendMessage() {
         val executor = Executors.newSingleThreadExecutor()
         executor.submit {
-            listOf(3, 2, 4).forEach { num ->
-                val record: ProducerRecord<String, String> = ProducerRecord(topic.name(), num.toString())
-                println("produced $record")
+            (1..10).forEach { num ->
+                val record: ProducerRecord<String, String> = ProducerRecord(topic.name(), "$num")
+                println("sent message number $num")
                 producer.send(record)
             }
         }

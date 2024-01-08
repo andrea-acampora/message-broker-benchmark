@@ -15,7 +15,7 @@ class Consumer(properties: Properties, private val topic: NewTopic) {
         while (true) {
             val records: ConsumerRecords<String, String> = consumer.poll(Duration.ofMillis(1000))
             records.forEach { record ->
-                println("Consumed: ${record.value()}")
+                println("Consumed message number ${record.value()}")
             }
         }
     }
