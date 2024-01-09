@@ -9,6 +9,7 @@ dependencies {
     implementation(libs.rabbitmq.client)
     implementation(libs.jackson)
     implementation(libs.jackson.data.format)
+    implementation(project(":benchmark"))
     testImplementation(libs.bundles.kotlin.testing)
 }
 

@@ -6,10 +6,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":kafka-driver"))
-    implementation(project(":pulsar-driver"))
-    implementation(project(":rabbitmq-driver"))
-
     testImplementation(libs.bundles.kotlin.testing)
 }
 

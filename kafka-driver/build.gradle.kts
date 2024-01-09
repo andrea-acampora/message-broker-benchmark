@@ -9,6 +9,8 @@ dependencies {
     implementation(libs.kafka.client)
     implementation(libs.jackson)
     implementation(libs.jackson.data.format)
+    implementation(libs.kotlin.coroutines.core)
+    implementation(project(":benchmark"))
     testImplementation(libs.bundles.kotlin.testing)
 }
 
