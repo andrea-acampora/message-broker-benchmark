@@ -11,7 +11,4 @@ fun main() {
 
     producer.sendMessage("Hello World!")
     consumer.consume()
-
-    producer.close()
-    consumer.close()
 }
