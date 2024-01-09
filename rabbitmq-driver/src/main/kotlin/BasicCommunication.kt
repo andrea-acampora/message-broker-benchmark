@@ -7,8 +7,8 @@ fun main(){
     val producer: RabbitMQProducer = loader.producer
     val consumer: RabbitMQConsumer = loader.consumer
 
-    producer.produce("Ciao")
-    consumer.consume()
+    producer.send("Hello World!")
+    consumer.receive()
 
     producer.close()
     consumer.close()

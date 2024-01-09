@@ -1,13 +1,17 @@
 package common
 
+import BenchmarkConsumer
 import common.config.ConsumerConfiguration
 import org.apache.pulsar.client.api.PulsarClient
+import org.apache.pulsar.shade.org.apache.commons.lang.SystemUtils
 
 class PulsarConsumer(
     client: PulsarClient,
     configuration: ConsumerConfiguration,
     topicName: String
-) {
+) : BenchmarkConsumer {
+    override val timeList: ArrayList<Long> = arrayListOf()
+
 
     private val consumer = client.newConsumer()
         .subscriptionType(configuration.subscriptionType)
@@ -15,10 +19,12 @@ class PulsarConsumer(
         .topic(topicName)
         .subscribe()
 
-    fun consume() {
-        consumer.receiveAsync().thenAccept {
-            println("[Pulsar Consumer]: Received Message: " + String(it.data))
-            consumer.acknowledge(it)
+    override fun receive() {
+        while(true){
+            val message = consumer.receive()
+            println("[Pulsar Consumer]: Received Message: " + String(message.data))
+            timeList.add(System.currentTimeMillis())
+            consumer.acknowledge(message)
         }
     }
 

@@ -1,20 +1,22 @@
 package common
 
-import org.apache.kafka.clients.admin.NewTopic
+import BenchmarkProducer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.Properties
 
 class KafkaProducer(
     properties: Properties,
-    private val topic: NewTopic
-) {
+    private val topic: String
+): BenchmarkProducer<String> {
+    override val timeList: ArrayList<Long> = arrayListOf()
 
     private val producer: KafkaProducer<String, ByteArray> = KafkaProducer(properties)
 
-    fun sendMessage(message: String) {
-        val record: ProducerRecord<String, ByteArray> = ProducerRecord(topic.name(), message.toByteArray())
+    override fun send(message: String) {
+        val record: ProducerRecord<String, ByteArray> = ProducerRecord(topic, message.toByteArray())
         producer.send(record)
+        timeList.add(System.currentTimeMillis())
         println("[Kafka Producer] sent message: $message")
     }
 

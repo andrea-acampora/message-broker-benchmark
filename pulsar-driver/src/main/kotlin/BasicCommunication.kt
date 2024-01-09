@@ -9,6 +9,6 @@ fun main() {
     val producer: PulsarProducer = loader.producer
     val consumer: PulsarConsumer = loader.consumer
 
-    producer.sendMessage("Hello World!")
-    consumer.consume()
+    producer.send("Hello World!")
+    consumer.receive()
 }

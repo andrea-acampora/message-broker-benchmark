@@ -1,5 +1,6 @@
 package common
 
+import BenchmarkProducer
 import common.config.ProducerConfiguration
 import org.apache.pulsar.client.api.Producer
 import org.apache.pulsar.client.api.PulsarClient
@@ -8,7 +9,8 @@ class PulsarProducer(
     client: PulsarClient,
     configuration: ProducerConfiguration,
     topicName: String
-) {
+): BenchmarkProducer<String> {
+    override val timeList: ArrayList<Long> = arrayListOf()
 
     private val producer: Producer<ByteArray> =
         client.newProducer()
@@ -16,10 +18,10 @@ class PulsarProducer(
             .topic(topicName)
             .create()
 
-    fun sendMessage(message: String) {
-        producer.sendAsync(message.encodeToByteArray()).thenRun {
-            println("[Pulsar Producer] sent message: $message")
-        }
+    override fun send(message: String) {
+        producer.send(message.encodeToByteArray())
+        timeList.add(System.currentTimeMillis())
+        println("[Pulsar Producer] sent message: $message")
     }
 
     fun close() {
