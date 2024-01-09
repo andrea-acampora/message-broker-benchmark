@@ -7,6 +7,7 @@ topicConfig: |
 
 commonConfig: |
   bootstrap.servers=localhost:9092
+  schema.registry.url=http://kafka-schema-registry:8081
 
 producerConfig: |
   acks=all
@@ -15,5 +16,5 @@ producerConfig: |
 
 consumerConfig: |
   auto.offset.reset=earliest
-  enable.auto.commit=false
+  enable.auto.commit=true
   max.partition.fetch.bytes=10485760
