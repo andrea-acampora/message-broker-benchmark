@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets
 
 class RabbitMQProducer(
     private val queueName: String
-): BenchmarkProducer<String> {
+): BenchmarkProducer<ByteArray> {
 
     private val factory = ConnectionFactory()
     override val timeList: ArrayList<Long> = arrayListOf()
@@ -22,10 +22,10 @@ class RabbitMQProducer(
         it.queueDeclare(queueName, false, false, true, null)
     }
 
-    override fun send(message: String) {
-        channel.basicPublish("", queueName, null, message.toByteArray(StandardCharsets.UTF_8))
+    override fun send(message: ByteArray) {
+        channel.basicPublish("", queueName, null, message)
         timeList.add(System.currentTimeMillis())
-        println("[RabbitMQ Producer] sent message: $message")
+        //println("[RabbitMQ Producer] sent message: ${String(message)}")
     }
 
     fun close(){

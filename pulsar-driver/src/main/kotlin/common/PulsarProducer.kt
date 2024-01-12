@@ -9,7 +9,7 @@ class PulsarProducer(
     client: PulsarClient,
     configuration: ProducerConfiguration,
     topicName: String
-): BenchmarkProducer<String> {
+): BenchmarkProducer<ByteArray> {
     override val timeList: ArrayList<Long> = arrayListOf()
 
     private val producer: Producer<ByteArray> =
@@ -18,10 +18,10 @@ class PulsarProducer(
             .topic(topicName)
             .create()
 
-    override fun send(message: String) {
-        producer.send(message.encodeToByteArray())
+    override fun send(message: ByteArray) {
+        producer.send(message)
         timeList.add(System.currentTimeMillis())
-        println("[Pulsar Producer] sent message: $message")
+        // println("[Pulsar Producer] sent message: ${String(message)}")
     }
 
     fun close() {
