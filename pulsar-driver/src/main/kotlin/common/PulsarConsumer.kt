@@ -22,7 +22,7 @@ class PulsarConsumer(
     override fun receive() {
         while(true){
             val message = consumer.receive()
-            println("[Pulsar Consumer]: Received Message: " + String(message.data))
+           // println("[Pulsar Consumer]: Received Message: " + String(message.data))
             timeList.add(System.currentTimeMillis())
             consumer.acknowledge(message)
         }

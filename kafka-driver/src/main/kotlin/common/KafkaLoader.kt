@@ -44,9 +44,6 @@ class KafkaLoader(
             producerProperties.load(StringReader(config.producerConfig))
             producerProperties[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java.name
             producerProperties[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = ByteArraySerializer::class.java.name
-            // val adminClient = AdminClient.create(commonProperties)
-            // val topic = NewTopic(topicName, 1, config.replicationFactor)
-            // adminClient.createTopics(listOf(topic))
 
             this.producer = KafkaProducer(producerProperties, topicName)
             this.consumer = KafkaConsumer(consumerProperties, topicName)

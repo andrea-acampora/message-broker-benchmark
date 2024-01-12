@@ -24,10 +24,10 @@ class RabbitMQConsumer(
 
     override fun receive() {
         channel.queueDeclare(queueName, false, false, true, null)
-        val callback = DeliverCallback { _, delivery ->
+        val callback = DeliverCallback { _, _ ->
                 timeList.add(System.currentTimeMillis())
-                val message = String(delivery.body, Charset.defaultCharset())
-                println("[RabbitMQ Consumer]: Received message: $message")
+               // val message = String(delivery.body, Charset.defaultCharset())
+               // println("[RabbitMQ Consumer]: Received message: $message")
         }
         channel.basicConsume(queueName, callback, CancelCallback {  })
     }
