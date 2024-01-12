@@ -4,12 +4,12 @@ import BenchmarkConsumer
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.time.Duration
-import java.util.Properties
+import java.util.*
 
 class KafkaConsumer(
     properties: Properties,
     private val topic: String,
-): BenchmarkConsumer {
+) : BenchmarkConsumer {
 
     override val timeList: ArrayList<Long> = arrayListOf()
 
@@ -18,16 +18,16 @@ class KafkaConsumer(
     }
 
     override fun receive() {
-        Thread {
-            while (true) {
-                val records: ConsumerRecords<String, ByteArray> = consumer.poll(Duration.ofMillis(10))
-                records.forEach { record ->
-                    timeList.add(System.currentTimeMillis())
-                    println("[Kafka Consumer] received message: ${String(record.value())}")
-                }
+        while (true) {
+            val records: ConsumerRecords<String, ByteArray> = consumer.poll(Duration.ofMillis(100))
+            records.forEach {
+                timeList.add(System.currentTimeMillis())
+               // println("[Kafka Consumer] received message: ${String(record.value())}")
+                consumer.commitAsync()
             }
-        }.start()
+        }
     }
+
 
     fun close() {
         println("[Kafka Consumer] closing...")
