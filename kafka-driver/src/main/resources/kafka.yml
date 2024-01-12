@@ -1,18 +1,14 @@
 replicationFactor: 1
 
-topicConfig: |
-  min.insync.replicas=2
-  flush.messages=1
-  flush.ms=0
-
 commonConfig: |
   bootstrap.servers=localhost:9092
   schema.registry.url=http://kafka-schema-registry:8081
 
 producerConfig: |
   acks=all
-  linger.ms=1
+  linger.ms=10
   batch.size=1048576
+  topic.metadata.refresh.interval.ms=10
 
 consumerConfig: |
   auto.offset.reset=earliest
