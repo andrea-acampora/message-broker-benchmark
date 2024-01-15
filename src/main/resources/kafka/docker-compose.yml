@@ -1,0 +1,73 @@
+version: '3'
+services:
+  kafka-zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.2
+    container_name: kafka-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka-broker-1:
+    image: confluentinc/cp-kafka:7.5.2
+    container_name: kafka-broker-1
+    hostname: kafka-broker-1
+    ports:
+      - "9092:9092"
+      - "9101:9101"
+    depends_on:
+      - kafka-zookeeper
+    expose:
+      - "29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'kafka-zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092, PLAINTEXT_INTERNAL://kafka-broker-1:29092
+
+  kafka-broker-2:
+    image: confluentinc/cp-kafka:7.5.2
+    container_name: kafka-broker-2
+    hostname: kafka-broker-2
+    ports:
+      - "9093:9093"
+    depends_on:
+      - kafka-zookeeper
+    expose:
+      - "29093"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: 'kafka-zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093, PLAINTEXT_INTERNAL://kafka-broker-2:29093
+
+  kafka-broker-3:
+    image: confluentinc/cp-kafka:7.5.2
+    container_name: kafka-broker-3
+    hostname: kafka-broker-3
+    ports:
+      - "9094:9094"
+    depends_on:
+      - kafka-zookeeper
+    expose:
+      - "29094"
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'kafka-zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094, PLAINTEXT_INTERNAL://kafka-broker-3:29094
+
+  kafka-schema-registry:
+    image: confluentinc/cp-schema-registry:7.5.2
+    hostname: kafka-schema-registry
+    container_name: kafka-schema-registry
+    depends_on:
+      - kafka-broker-1
+      - kafka-broker-2
+      - kafka-broker-3
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker-1:29092, kafka-broker-2:29093, kafka-broker-3:29093'
+      # SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker-1:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
