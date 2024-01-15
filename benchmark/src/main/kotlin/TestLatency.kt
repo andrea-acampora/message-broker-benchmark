@@ -1,10 +1,9 @@
 class TestLatency(val producer: BenchmarkProducer<ByteArray>, val consumer: BenchmarkConsumer) {
     fun runTest(messageCount: Int) {
-        Thread{
-            consumer.receive()
-        }.start()
+        consumer.receive(false)
+        Thread.sleep(5000)
         (1..messageCount).forEach { num ->
-            producer.send("message number $num".toByteArray())
+            producer.send("message number $num".toByteArray(), false)
             Thread.sleep(1000)
         }
     }
@@ -13,9 +12,6 @@ class TestLatency(val producer: BenchmarkProducer<ByteArray>, val consumer: Benc
         val allLatency = consumer.timeList.zip(producer.timeList).map { (a, b) ->
             a - b
         }
-
-        println(producer.timeList)
-
         return allLatency
     }
 }
