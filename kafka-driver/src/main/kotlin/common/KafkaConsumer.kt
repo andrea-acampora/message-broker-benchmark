@@ -5,6 +5,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.time.Duration
 import java.util.*
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 
 class KafkaConsumer(
     properties: Properties,
@@ -12,18 +15,25 @@ class KafkaConsumer(
 ) : BenchmarkConsumer {
 
     override val timeList: ArrayList<Long> = arrayListOf()
+    private val executor = Executors.newSingleThreadExecutor()
+    @Volatile var closing = false
+    private lateinit var consumerTask: Future<*>
+
+
 
     private val consumer: KafkaConsumer<String, ByteArray> = KafkaConsumer<String, ByteArray>(properties).also {
         it.subscribe(listOf(topic))
     }
 
-    override fun receive() {
-        while (true) {
-            val records: ConsumerRecords<String, ByteArray> = consumer.poll(Duration.ofMillis(100))
-            records.forEach {
-                timeList.add(System.currentTimeMillis())
-               // println("[Kafka Consumer] received message: ${String(record.value())}")
-                consumer.commitAsync()
+    override fun receive(logger: Boolean) {
+        this.consumerTask = executor.submit {
+            while (!closing) {
+                val records: ConsumerRecords<String, ByteArray> = consumer.poll(Duration.ofMillis(100))
+                records.forEach {
+                    timeList.add(System.currentTimeMillis())
+                    if (logger) println("[Kafka Consumer] received message: ${String(it.value())}")
+                    consumer.commitAsync()
+                }
             }
         }
     }
@@ -31,6 +41,9 @@ class KafkaConsumer(
 
     fun close() {
         println("[Kafka Consumer] closing...")
+        closing = true
+        executor.shutdown()
+        consumerTask.get()
         consumer.close()
     }
 }

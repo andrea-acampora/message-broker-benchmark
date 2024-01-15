@@ -22,10 +22,10 @@ class RabbitMQProducer(
         it.queueDeclare(queueName, false, false, true, null)
     }
 
-    override fun send(message: ByteArray) {
+    override fun send(message: ByteArray, logger: Boolean) {
         channel.basicPublish("", queueName, null, message)
         timeList.add(System.currentTimeMillis())
-        //println("[RabbitMQ Producer] sent message: ${String(message)}")
+        if(logger) println("[RabbitMQ Producer] sent message: ${String(message)}")
     }
 
     fun close(){

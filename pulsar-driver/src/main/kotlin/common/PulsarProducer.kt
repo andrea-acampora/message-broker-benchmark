@@ -22,10 +22,10 @@ class PulsarProducer(
             .topic(topicName)
             .create()
 
-    override fun send(message: ByteArray) {
+    override fun send(message: ByteArray, logger: Boolean) {
         producer.sendAsync(message)
         timeList.add(System.currentTimeMillis())
-        // println("[Pulsar Producer] sent message: ${String(message)}")
+        if(logger) println("[Pulsar Producer] sent message: ${String(message)}")
     }
 
     fun close() {

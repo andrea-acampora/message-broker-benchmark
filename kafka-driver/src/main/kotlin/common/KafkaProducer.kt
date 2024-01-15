@@ -4,6 +4,7 @@ import BenchmarkProducer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
+import org.apache.kafka.common.protocol.types.Field.Bool
 import java.util.Properties
 
 class KafkaProducer(
@@ -15,11 +16,11 @@ class KafkaProducer(
     private val producer: KafkaProducer<String, ByteArray> = KafkaProducer<String, ByteArray>(properties)
 
 
-    override fun send(message: ByteArray) {
+    override fun send(message: ByteArray, logger: Boolean) {
         val record: ProducerRecord<String, ByteArray> = ProducerRecord(topic, message)
         producer.send(record)
         timeList.add(System.currentTimeMillis())
-        // println("[Kafka Producer] sent message: ${String(message)}")
+        if(logger) println("[Kafka Producer] sent message: ${String(message)}")
     }
 
     fun close() {
