@@ -5,12 +5,13 @@ commonConfig: |
   schema.registry.url=http://kafka-schema-registry:8081
 
 producerConfig: |
-  acks=all
   linger.ms=10
   batch.size=1048576
-  topic.metadata.refresh.interval.ms=10
+  max.message.bytes=10485880
+  max.request.size=10485880
 
 consumerConfig: |
   auto.offset.reset=earliest
   enable.auto.commit=true
-  max.partition.fetch.bytes=10485760
+  max.partition.fetch.bytes=10485880
+  fetch.message.max.bytes=10485880
