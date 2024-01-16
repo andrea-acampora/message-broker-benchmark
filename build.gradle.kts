@@ -42,3 +42,24 @@ allprojects {
         }
     }
 }
+
+tasks.create<JavaExec>("runLatencyBenchmark") {
+    this.group = "benchmark-tests"
+    this.description = "Run the latency benchmark"
+    this.mainClass.set("RunLatencyBenchmarkKt")
+    this.classpath = project.sourceSets.main.get().runtimeClasspath
+}
+
+tasks.create<JavaExec>("runThroughputBenchmark") {
+    this.group = "benchmark-tests"
+    this.description = "Run the throughput benchmark"
+    this.mainClass.set("RunThroughputBenchmarkKt")
+    this.classpath = project.sourceSets.main.get().runtimeClasspath
+}
+
+tasks.create<JavaExec>("runNodeFailureBenchmark") {
+    this.group = "benchmark-tests"
+    this.description = "Run the node failure benchmark"
+    this.mainClass.set("RunNodeFailureBenchmarkKt")
+    this.classpath = project.sourceSets.main.get().runtimeClasspath
+}

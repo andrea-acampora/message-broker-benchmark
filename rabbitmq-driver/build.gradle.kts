@@ -22,3 +22,7 @@ kotlin {
         }
     }
 }
+
+application {
+    mainClass.set("BasicCommunicationKt")
+}
