@@ -6,7 +6,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import common.config.PulsarConfiguration
 import org.apache.pulsar.client.api.PulsarClient
-import java.io.File
 import java.util.concurrent.TimeUnit
 
 /**
@@ -24,10 +23,9 @@ class PulsarLoader(
     lateinit var consumer: PulsarConsumer
 
     init {
-        object {}.javaClass.getResource(configurationFile)?.let {
-
+        object {}.javaClass.getResourceAsStream(configurationFile)?.let {
             val pulsarConfiguration: PulsarConfiguration =
-                ObjectMapper(YAMLFactory()).registerKotlinModule().readValue(File(it.toURI()))
+                ObjectMapper(YAMLFactory()).registerKotlinModule().readValue(it.readAllBytes())
             val client: PulsarClient = PulsarClient.builder()
                 .ioThreads(pulsarConfiguration.clientConfiguration.ioThreads)
                 .connectionsPerBroker(pulsarConfiguration.clientConfiguration.connectionsPerBroker)

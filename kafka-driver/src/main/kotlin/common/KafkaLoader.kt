@@ -12,7 +12,6 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer
 import org.apache.kafka.common.serialization.ByteArraySerializer
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
-import java.io.File
 import java.io.StringReader
 import java.util.Properties
 
@@ -31,9 +30,8 @@ class KafkaLoader(
     lateinit var consumer: KafkaConsumer
 
     init {
-        object {}.javaClass.getResource(configurationFile)?.let {
-
-            val config: KafkaConfig = ObjectMapper(YAMLFactory()).registerKotlinModule().readValue(File(it.toURI()))
+        object {}.javaClass.getResourceAsStream(configurationFile)?.let {
+            val config: KafkaConfig = ObjectMapper(YAMLFactory()).registerKotlinModule().readValue(it.readAllBytes())
             val commonProperties = Properties()
             val consumerProperties = Properties()
             val producerProperties = Properties()
