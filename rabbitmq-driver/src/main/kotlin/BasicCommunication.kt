@@ -1,9 +1,12 @@
 import common.RabbitMQConsumer
+import common.RabbitMQLoader
 import common.RabbitMQProducer
-import common.RabbitMqLoader
 
-fun main(){
-    val loader = RabbitMqLoader("queue-1")
+/**
+ * Basic usage of a RabbitMQ Broker with a Producer and a Consumer.
+ */
+fun main() {
+    val loader = RabbitMQLoader("queue-1")
     val producer: RabbitMQProducer = loader.producer
     val consumer: RabbitMQConsumer = loader.consumer
 

@@ -31,7 +31,6 @@ allprojects {
         mavenCentral()
     }
 
-
     tasks.withType<Test> {
         useJUnitPlatform()
         testLogging {
