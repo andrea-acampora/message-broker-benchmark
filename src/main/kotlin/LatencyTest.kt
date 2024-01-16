@@ -12,7 +12,7 @@ fun main() {
 }
 
 fun testKafkaLatency(): List<Long> {
-    val kafkaLoader = KafkaLoader("/kafka.yml", "topic-2")
+    val kafkaLoader = KafkaLoader("/kafka.yml", "topic-1")
     val kafkaBenchmarkLatency = TestLatency(kafkaLoader.producer, kafkaLoader.consumer)
     kafkaBenchmarkLatency.runTest(20)
     kafkaLoader.consumer.close()
