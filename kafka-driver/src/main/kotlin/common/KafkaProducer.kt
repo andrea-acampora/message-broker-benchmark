@@ -3,8 +3,6 @@ package common
 import BenchmarkProducer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.kafka.clients.producer.RecordMetadata
-import org.apache.kafka.common.protocol.types.Field.Bool
 import java.util.Properties
 
 class KafkaProducer(
