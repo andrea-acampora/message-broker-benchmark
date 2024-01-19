@@ -12,6 +12,7 @@ kotest-assertions-core-jvm = { module = "io.kotest:kotest-assertions-core-jvm", 
 pulsar-client = { module = "org.apache.pulsar:pulsar-client", version="3.1.1" }
 rabbitmq-client = { module ="com.rabbitmq:amqp-client", version="5.20.0" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.3"}
+testcontainer-kafka = { module = "org.testcontainers:kafka", version = "1.19.3" }
 
 [bundles]
 kotlin-testing = [

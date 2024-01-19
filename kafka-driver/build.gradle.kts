@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(project(":benchmark"))
     testImplementation(libs.bundles.kotlin.testing)
+    testImplementation(libs.testcontainer.kafka)
 }
 
 kotlin {
