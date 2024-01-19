@@ -9,11 +9,12 @@ import org.apache.pulsar.client.api.PulsarClient
 import java.util.concurrent.TimeUnit
 
 /**
- * A Loader of a Pulsar Producer and Pulsar Consumer given a configuration file.
+ * A Loader of a Pulsar Producer and Pulsar Consumer given a configuration file and a [serviceUrl].
  */
 class PulsarLoader(
     configurationFile: String,
     topicName: String,
+    private val serviceUrl: String? = null
 ) {
 
     /** The Pulsar Producer. */
@@ -29,7 +30,7 @@ class PulsarLoader(
             val client: PulsarClient = PulsarClient.builder()
                 .ioThreads(pulsarConfiguration.clientConfiguration.ioThreads)
                 .connectionsPerBroker(pulsarConfiguration.clientConfiguration.connectionsPerBroker)
-                .serviceUrl(pulsarConfiguration.clientConfiguration.serviceUrl)
+                .serviceUrl(serviceUrl ?: pulsarConfiguration.clientConfiguration.serviceUrl)
                 .maxConcurrentLookupRequests(pulsarConfiguration.clientConfiguration.maxConcurrentLookupRequests)
                 .connectionTimeout(10, TimeUnit.MINUTES)
                 .operationTimeout(OPERATION_TIMEOUT, TimeUnit.MINUTES)
