@@ -1,5 +1,7 @@
 .DS_Store
 .idea/shelf
+.idea/kotlinc.xml
+.idea/git_toolbox_prj.xml
 /confluence/target
 /dependencies/repo
 /android.tests.dependencies
