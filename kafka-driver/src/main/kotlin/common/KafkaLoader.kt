@@ -16,11 +16,13 @@ import java.io.StringReader
 import java.util.Properties
 
 /**
- * A Loader for a Kafka Producer and Kafka Consumer given a configuration file and a topic.
+ * A Loader for a Kafka Producer and Kafka Consumer given a configuration file, a topic
+ * and optionally a bootstrap server.
  */
 class KafkaLoader(
     configurationFile: String,
     topicName: String,
+    private val bootstrapServer: String? = null
 ) {
 
     /** The Kafka Producer. */
@@ -37,6 +39,7 @@ class KafkaLoader(
             val producerProperties = Properties()
 
             commonProperties.load(StringReader(config.commonConfig))
+            commonProperties["bootstrap.servers"] = this.bootstrapServer ?: commonProperties["bootstrap.servers"]
             commonProperties.forEach { key, value ->
                 consumerProperties[key] = value
                 producerProperties[key] = value
