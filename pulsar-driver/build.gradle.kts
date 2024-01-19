@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.jackson.data.format)
     implementation(project(":benchmark"))
     testImplementation(libs.bundles.kotlin.testing)
+    testImplementation(libs.testcontainer.pulsar)
 }
 
 kotlin {
