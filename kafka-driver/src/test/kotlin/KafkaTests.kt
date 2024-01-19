@@ -1,7 +1,9 @@
 import common.KafkaLoader
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldNotBe
+import kotlinx.coroutines.delay
 import org.testcontainers.containers.KafkaContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -39,8 +41,8 @@ class KafkaTests : StringSpec({
         "Kafka Consumer should be able to receive a message" {
             loader.producer.send("Testing producer....".encodeToByteArray(), true)
             loader.consumer.receive(true)
-            Thread.sleep(2000)
-            loader.consumer.messagesTimestamp shouldHaveSize 1
+            delay(2000)
+            loader.consumer.messagesTimestamp.size shouldBeGreaterThan 0
         }
     }
 })

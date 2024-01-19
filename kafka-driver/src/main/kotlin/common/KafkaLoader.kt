@@ -22,7 +22,7 @@ import java.util.Properties
 class KafkaLoader(
     configurationFile: String,
     topicName: String,
-    private val bootstrapServer: String? = null
+    private val bootstrapServer: String? = null,
 ) {
 
     /** The Kafka Producer. */

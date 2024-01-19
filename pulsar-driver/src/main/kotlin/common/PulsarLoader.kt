@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 class PulsarLoader(
     configurationFile: String,
     topicName: String,
-    private val serviceUrl: String? = null
+    private val serviceUrl: String? = null,
 ) {
 
     /** The Pulsar Producer. */
