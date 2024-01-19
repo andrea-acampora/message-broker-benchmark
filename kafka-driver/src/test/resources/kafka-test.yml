@@ -1,0 +1,18 @@
+partitions: 1
+replicationFactor: 1
+
+commonConfig: |
+  bootstrap.servers=localhost:9092
+  schema.registry.url=http://kafka-schema-registry:8081
+
+producerConfig: |
+  linger.ms=10
+  batch.size=1048576
+  max.message.bytes=10485880
+  max.request.size=10485880
+
+consumerConfig: |
+  auto.offset.reset=earliest
+  enable.auto.commit=true
+  max.partition.fetch.bytes=10485880
+  fetch.message.max.bytes=10485880
