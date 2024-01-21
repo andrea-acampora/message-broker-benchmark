@@ -1,17 +1,23 @@
-image: gradle:latest
+image: gradle:jdk11
 
 variables:
-  OPTIONS: "--no-daemon --console=plain --stacktrace"
-  BEFORE_TASK: "clean"
-  AFTER_TASK: ""
-  GRADLE_CMD: "gradle"
-  BUILD_TASK: "assemble"
-  TEST_TASK: "check"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 Compile:
   stage: build
-  script: $GRADLE_CMD $BEFORE_TASK $BUILD_TASK $AFTER_TASK $OPTIONS
+  script: gradle assemble 
 
-Test:
-  stage: test
-  script: $GRADLE_CMD $BEFORE_TASK $TEST_TASK $AFTER_TASK $OPTIONS
