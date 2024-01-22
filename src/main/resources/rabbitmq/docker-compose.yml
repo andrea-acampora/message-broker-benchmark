@@ -5,21 +5,28 @@ services:
   rabbit1:
     image: rabbitmq:3-management-alpine
     container_name: "rabbit1"
+    hostname: rabbit1
     ports:
       - "5672:5672"
       - "15672:15672"
+    expose:
+      - "5672"
     volumes:
       - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - rabbitmq_go_net
     environment:
-      - "RABBITMQ_DEFAULT_PASS=admin"
-      - "RABBITMQ_DEFAULT_USER=admin"
+#      - "RABBITMQ_DEFAULT_PASS=admin"
+#      - "RABBITMQ_DEFAULT_USER=admin"
+      - "RABBITMQ_ERLANG_COOKIE=rabbitcookie"
 
   rabbit2:
     image: rabbitmq:3-management-alpine
     container_name: "rabbit2"
+    hostname: rabbit2
+    depends_on:
+      - rabbit1
     ports:
       - "5673:5672"
       - "15673:15672"
@@ -29,12 +36,18 @@ services:
     networks:
       - rabbitmq_go_net
     environment:
-      - "RABBITMQ_DEFAULT_PASS=admin"
-      - "RABBITMQ_DEFAULT_USER=admin"
-      - "JOIN_CLUSTER_HOST=rabbit1"
+      - "RABBITMQ_ERLANG_COOKIE=rabbitcookie"
+      - "CLUSTERED=true"
+      - "CLUSTER_WITH=rabbit@rabbit1"
+      - "RAM_NODE=true"
+    links:
+      - rabbit1
 
   rabbit3:
     image: rabbitmq:3-management-alpine
+    hostname: rabbit3
+    depends_on:
+      - rabbit2
     container_name: "rabbit3"
     ports:
       - "5674:5672"
@@ -45,9 +58,14 @@ services:
     networks:
       - rabbitmq_go_net
     environment:
-      - "RABBITMQ_DEFAULT_PASS=admin"
-      - "RABBITMQ_DEFAULT_USER=admin"
-      - "JOIN_CLUSTER_HOST=rabbit1"
+      - "RABBITMQ_ERLANG_COOKIE=rabbitcookie"
+      - "CLUSTERED=true"
+      - "CLUSTER_WITH=rabbit@rabbit1"
+      - "RAM_NODE=true"
+    links:
+      - rabbit1
+      - rabbit2
+
 networks:
   rabbitmq_go_net:
     driver: bridge

@@ -1,5 +1,5 @@
-username: admin
-password: admin
+username: guest
+password: guest
 nodes:
   - host: localhost
     port: 5672

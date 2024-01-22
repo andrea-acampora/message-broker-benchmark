@@ -19,8 +19,6 @@ class NodeFailureBenchmark(
             producer.send("Ping".encodeToByteArray(), true)
             Thread.sleep(100)
         }
-        producer.close()
-        consumer.close()
     }
 
     override fun collectResult() = Pair(producer.messagesTimestamp, consumer.messagesTimestamp)

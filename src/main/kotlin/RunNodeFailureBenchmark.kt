@@ -5,7 +5,7 @@ import consumer.BenchmarkConsumer
 import producer.BenchmarkProducer
 
 /** The duration of the node failure benchmark for each Broker. */
-const val TEST_DURATION = 120000L
+const val TEST_DURATION = 1000000L
 
 /**
  * Run a Node Failure Benchmark for all Message Brokers.

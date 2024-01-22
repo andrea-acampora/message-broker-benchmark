@@ -14,9 +14,13 @@ class RabbitMQProducer(
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
 
     override fun send(message: ByteArray, logger: Boolean) {
-        channel.basicPublish("", queueName, null, message)
-        messagesTimestamp.add(System.currentTimeMillis())
-        if (logger) println("[RabbitMQ Producer] sent message: ${String(message)}")
+        try {
+            channel.basicPublish("", queueName, null, message)
+            messagesTimestamp.add(System.currentTimeMillis())
+            if (logger) println("[RabbitMQ Producer] sent message: ${String(message)}")
+        } catch (e: Exception) {
+            println("Waiting channel opening...")
+        }
     }
 
     override fun close() {
