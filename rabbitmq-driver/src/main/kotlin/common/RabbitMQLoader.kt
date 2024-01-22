@@ -5,7 +5,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.rabbitmq.client.Address
-import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 import common.config.RabbitMQConfig
@@ -17,7 +16,7 @@ import common.config.RabbitMQConfig
 class RabbitMQLoader(
     private val configurationFile: String,
     private val queueName: String,
-    private val serviceUrl: String? = null,
+    private val serviceUrl: List<Address>? = null,
 ) {
 
     /** The Kafka Producer. */
@@ -34,17 +33,20 @@ class RabbitMQLoader(
                 factory.username = config.username
                 factory.password = config.password
             }
-            val connection: Connection = factory.newConnection(config.nodes.map { address ->
+            val nodes: List<Address> = serviceUrl ?: config.nodes.map { address ->
                 Address(address.host, address.port)
-            })
+            }
+            val connection: Connection = factory.newConnection(nodes)
             val channel = connection.createChannel()
             channel.queueDeclare(
-                queueName, true, false, false, mapOf("x-queue-type" to "quorum","ha-mode" to "all")
+                queueName,
+                true,
+                false,
+                false,
+                mapOf("x-queue-type" to "quorum", "ha-mode" to "all"),
             )
             producer = RabbitMQProducer(queueName, channel)
             consumer = RabbitMQConsumer(queueName, channel)
         }
-
     }
-
 }

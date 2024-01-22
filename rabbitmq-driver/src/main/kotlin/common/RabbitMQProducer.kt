@@ -8,7 +8,7 @@ import producer.BenchmarkProducer
  */
 class RabbitMQProducer(
     private val queueName: String,
-    private val channel: Channel
+    private val channel: Channel,
 ) : BenchmarkProducer<ByteArray> {
 
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
@@ -18,7 +18,7 @@ class RabbitMQProducer(
             channel.basicPublish("", queueName, null, message)
             messagesTimestamp.add(System.currentTimeMillis())
             if (logger) println("[RabbitMQ Producer] sent message: ${String(message)}")
-        } catch (_ : Exception) {
+        } catch (_: Exception) {
             println("Waiting channel opening...")
         }
     }

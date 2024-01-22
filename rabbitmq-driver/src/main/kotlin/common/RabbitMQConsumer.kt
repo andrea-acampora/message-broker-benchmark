@@ -11,8 +11,8 @@ import java.nio.charset.Charset
  */
 class RabbitMQConsumer(
     private val queueName: String,
-    private val channel: Channel
-    ) : BenchmarkConsumer {
+    private val channel: Channel,
+) : BenchmarkConsumer {
 
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
 

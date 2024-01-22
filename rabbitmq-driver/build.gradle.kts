@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.jackson)
     implementation(libs.jackson.data.format)
     implementation(project(":benchmark"))
+    testImplementation(libs.testcontainer.rabbitmq)
     testImplementation(libs.bundles.kotlin.testing)
 }
 
