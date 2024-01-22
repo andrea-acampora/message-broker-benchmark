@@ -1,6 +1,6 @@
 package common
 
-import com.rabbitmq.client.Connection
+import com.rabbitmq.client.Channel
 import producer.BenchmarkProducer
 
 /**
@@ -8,11 +8,10 @@ import producer.BenchmarkProducer
  */
 class RabbitMQProducer(
     private val queueName: String,
-    connection: Connection,
+    private val channel: Channel
 ) : BenchmarkProducer<ByteArray> {
 
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
-    private val channel = connection.createChannel()
 
     override fun send(message: ByteArray, logger: Boolean) {
         channel.basicPublish("", queueName, null, message)
@@ -21,7 +20,6 @@ class RabbitMQProducer(
     }
 
     override fun close() {
-        channel.queuePurge(queueName)
-        channel.close()
+        println("[RabbitMQ Producer] closing..")
     }
 }

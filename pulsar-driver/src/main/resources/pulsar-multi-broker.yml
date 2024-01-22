@@ -1,0 +1,19 @@
+clientConfiguration:
+  serviceUrl: pulsar://localhost:6650,pulsar://localhost:6651
+  httpUrl: http://localhost:8080
+  ioThreads: 16
+  connectionsPerBroker: 8
+  clusterName: local
+  topicType: persistent
+
+producerConfiguration:
+  batchingEnabled: true
+  batchingMaxPublishDelayMs: 1
+  batchingMaxBytes: 131072
+  blockIfQueueFull: true
+  pendingQueueSize: 0
+
+consumerConfiguration:
+  receiverQueueSize: 10000
+  subscriptionType: Failover
+  subscriptionName: pulsar-sub

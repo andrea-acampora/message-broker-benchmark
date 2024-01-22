@@ -16,15 +16,13 @@ class NodeFailureBenchmark(
         consumer.receive(true)
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < testDuration) {
-            producer.send(ByteArray(MEGABYTE_SIZE), false)
+            producer.send("Ping".encodeToByteArray(), true)
+            Thread.sleep(100)
         }
+        producer.close()
+        consumer.close()
     }
 
     override fun collectResult() = Pair(producer.messagesTimestamp, consumer.messagesTimestamp)
 
-    companion object {
-
-        /** Property used to send messages of 1 Megabyte. */
-        const val MEGABYTE_SIZE = 1024
-    }
 }

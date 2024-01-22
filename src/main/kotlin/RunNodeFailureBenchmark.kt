@@ -5,7 +5,7 @@ import consumer.BenchmarkConsumer
 import producer.BenchmarkProducer
 
 /** The duration of the node failure benchmark for each Broker. */
-const val TEST_DURATION = 20000L
+const val TEST_DURATION = 120000L
 
 /**
  * Run a Node Failure Benchmark for all Message Brokers.
@@ -25,16 +25,16 @@ private fun testNodeFailure(producer: BenchmarkProducer<ByteArray>, consumer: Be
     }
 
 private fun testKafkaNodeFailure(duration: Long) =
-    with(KafkaLoader("/kafka-partitioned.yml", "topic-1")) {
+    with(KafkaLoader("/kafka-multi-broker.yml", "topic-1")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
  private fun testPulsarNodeFailure(duration: Long) =
-    with(PulsarLoader("/pulsar.yml", "topic-1")) {
+    with(PulsarLoader("/pulsar-multi-broker.yml", "topic-1")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
  private fun testRabbitMQNodeFailure(duration: Long) =
-    with(RabbitMQLoader("/rabbitmq.yml","queue-1")) {
+    with(RabbitMQLoader("/rabbitmq-multi-broker.yml","queue-1")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }

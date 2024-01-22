@@ -37,9 +37,10 @@ class RabbitMQLoader(
             val connection: Connection = factory.newConnection(config.nodes.map { address ->
                 Address(address.host, address.port)
             })
-
-            producer = RabbitMQProducer(queueName, connection)
-            consumer = RabbitMQConsumer(queueName, connection)
+            val channel = connection.createChannel()
+            channel.queueDeclare(queueName, true, false, false, mapOf("x-queue-type" to "quorum"))
+            producer = RabbitMQProducer(queueName, channel)
+            consumer = RabbitMQConsumer(queueName, channel)
         }
 
     }
