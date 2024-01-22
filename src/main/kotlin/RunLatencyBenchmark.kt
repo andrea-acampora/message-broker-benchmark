@@ -35,6 +35,6 @@ private fun testPulsarLatency(messageCount: Int) =
     }
 
 private fun testRabbitMQLatency(messageCount: Int) =
-    with(RabbitMQLoader("queue-1")) {
+    with(RabbitMQLoader("/rabbitmq.yml","ha.queue-1")) {
         testLatency(this.producer, this.consumer, messageCount)
     }

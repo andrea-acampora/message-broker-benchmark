@@ -1,0 +1,7 @@
+username: admin
+password: admin
+nodes:
+  - host: localhost
+    port: 5672
+  - host: localhost
+    port: 5673

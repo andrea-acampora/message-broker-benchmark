@@ -1,9 +1,7 @@
 package common
 
 import com.rabbitmq.client.CancelCallback
-import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
-import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DeliverCallback
 import consumer.BenchmarkConsumer
 import java.nio.charset.Charset
@@ -13,21 +11,17 @@ import java.nio.charset.Charset
  */
 class RabbitMQConsumer(
     private val queueName: String,
-) : BenchmarkConsumer {
+    connection: Connection,
+    ) : BenchmarkConsumer {
 
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
-    private val factory = ConnectionFactory()
-    private val connection: Connection = factory.newConnection()
-    private val channel: Channel = connection.createChannel()
-
-    init {
-        factory.host = "localhost"
-    }
+    private val channel = connection.createChannel()
 
     override fun receive(logger: Boolean) {
         channel.queueDeclare(queueName, false, false, true, null)
         channel.basicConsume(
             queueName,
+            true,
             DeliverCallback { _, delivery ->
                 messagesTimestamp.add(System.currentTimeMillis())
                 if (logger) {
@@ -41,6 +35,5 @@ class RabbitMQConsumer(
 
     override fun close() {
         channel.close()
-        connection.close()
     }
 }

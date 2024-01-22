@@ -33,6 +33,6 @@ private fun testPulsarThroughput(duration: Long) =
     }
 
 private fun testRabbitMQThroughput(duration: Long) =
-    with(RabbitMQLoader("queue-1")) {
+    with(RabbitMQLoader("/rabbitmq.yml","queue-1")) {
         testThroughput(this.producer, duration)
     }
