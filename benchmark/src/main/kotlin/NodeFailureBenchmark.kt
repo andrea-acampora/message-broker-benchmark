@@ -22,5 +22,4 @@ class NodeFailureBenchmark(
     }
 
     override fun collectResult() = Pair(producer.messagesTimestamp, consumer.messagesTimestamp)
-
 }

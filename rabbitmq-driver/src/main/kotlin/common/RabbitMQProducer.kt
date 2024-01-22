@@ -18,7 +18,7 @@ class RabbitMQProducer(
             channel.basicPublish("", queueName, null, message)
             messagesTimestamp.add(System.currentTimeMillis())
             if (logger) println("[RabbitMQ Producer] sent message: ${String(message)}")
-        } catch (e: Exception) {
+        } catch (_ : Exception) {
             println("Waiting channel opening...")
         }
     }

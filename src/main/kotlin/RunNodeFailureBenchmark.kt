@@ -29,12 +29,12 @@ private fun testKafkaNodeFailure(duration: Long) =
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
- private fun testPulsarNodeFailure(duration: Long) =
+private fun testPulsarNodeFailure(duration: Long) =
     with(PulsarLoader("/pulsar-multi-broker.yml", "topic-1")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
- private fun testRabbitMQNodeFailure(duration: Long) =
-    with(RabbitMQLoader("/rabbitmq-multi-broker.yml","queue-1")) {
+private fun testRabbitMQNodeFailure(duration: Long) =
+    with(RabbitMQLoader("/rabbitmq-multi-broker.yml", "queue-1")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
