@@ -4,7 +4,7 @@ import producer.BenchmarkProducer
 /**
  * The end-to-end latency benchmark for a Message Broker.
  * It uses a [producer] to send messages and a [consumer] to receive messages.
- * It calculates the end-to-end latency between the send and the reception of each message.
+ * It calculates the average end-to-end latency between the send and the reception of each message.
  */
 class LatencyBenchmark(
     private val producer: BenchmarkProducer<ByteArray>,
@@ -13,10 +13,10 @@ class LatencyBenchmark(
 ) : Benchmark<List<Long>> {
 
     override fun runTest() {
-        consumer.receive(true)
+        consumer.receive(false)
         Thread.sleep(STARTING_SLEEP_TIME)
         repeat(messageCount) {
-            producer.send("message number $it".toByteArray(), true)
+            producer.send("message number $it".toByteArray(), false)
             Thread.sleep(SLEEP_TIME)
         }
     }

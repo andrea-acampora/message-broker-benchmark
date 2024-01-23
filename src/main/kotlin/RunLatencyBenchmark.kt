@@ -5,7 +5,7 @@ import consumer.BenchmarkConsumer
 import producer.BenchmarkProducer
 
 /** The number of messages sent in the Latency Benchmark for each broker. */
-const val MESSAGE_COUNT = 5000
+const val MESSAGE_COUNT = 1000
 
 /**
  * Run a Latency Benchmark for all Message Brokers.

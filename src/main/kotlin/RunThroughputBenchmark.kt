@@ -1,6 +1,7 @@
 import common.KafkaLoader
 import common.PulsarLoader
 import common.RabbitMQLoader
+import consumer.BenchmarkConsumer
 import producer.BenchmarkProducer
 
 /** The duration of the node failure benchmark for each Broker. */
@@ -15,24 +16,24 @@ fun main() {
     testRabbitMQThroughput(DURATION)
 }
 
-private fun testThroughput(producer: BenchmarkProducer<ByteArray>, duration: Long): Double =
-    ThroughputBenchmark(producer, duration).let { benchmark ->
+private fun testThroughput(producer: BenchmarkProducer<ByteArray>, consumer: BenchmarkConsumer, duration: Long) =
+    ThroughputBenchmark(producer, consumer, duration).let { benchmark ->
         benchmark.runTest()
         producer.close()
-        return benchmark.collectResult()
+        println(benchmark.collectResult())
     }
 
 private fun testKafkaThroughput(duration: Long) =
     with(KafkaLoader("/kafka.yml", "topic-1")) {
-        testThroughput(this.producer, duration)
+        testThroughput(this.producer, this.consumer, duration)
     }
 
 private fun testPulsarThroughput(duration: Long) =
     with(PulsarLoader("/pulsar.yml", "topic-1")) {
-        testThroughput(this.producer, duration)
+        testThroughput(this.producer, this.consumer, duration)
     }
 
 private fun testRabbitMQThroughput(duration: Long) =
     with(RabbitMQLoader("/rabbitmq.yml", "queue-1")) {
-        testThroughput(this.producer, duration)
+        testThroughput(this.producer, this.consumer, duration)
     }

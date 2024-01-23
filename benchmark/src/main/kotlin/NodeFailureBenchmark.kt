@@ -13,13 +13,18 @@ class NodeFailureBenchmark(
 ) : Benchmark<Pair<List<Long>, List<Long>>> {
 
     override fun runTest() {
-        consumer.receive(true)
+        consumer.receive(false)
         val startTime = System.currentTimeMillis()
         while (System.currentTimeMillis() - startTime < testDuration) {
-            producer.send("Ping".encodeToByteArray(), true)
+            producer.send(ByteArray(KILOBYTE_SIZE), false)
             Thread.sleep(100)
         }
     }
 
     override fun collectResult() = Pair(producer.messagesTimestamp, consumer.messagesTimestamp)
+
+    companion object {
+        /** Property used to send messages of 1 Kilobytes. */
+        const val KILOBYTE_SIZE = 1024
+    }
 }
