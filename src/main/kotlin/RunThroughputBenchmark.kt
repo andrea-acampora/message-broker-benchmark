@@ -25,16 +25,16 @@ private fun testThroughput(producer: BenchmarkProducer<ByteArray>, consumer: Ben
     }
 
 private fun testKafkaThroughput(duration: Long) =
-    with(KafkaLoader("/kafka.yml", "topic-1")) {
+    with(KafkaLoader("/kafka.yml", "topic-2")) {
         testThroughput(this.producer, this.consumer, duration)
     }
 
 private fun testPulsarThroughput(duration: Long) =
-    with(PulsarLoader("/pulsar.yml", "topic-1")) {
+    with(PulsarLoader("/pulsar.yml", "topic-2")) {
         testThroughput(this.producer, this.consumer, duration)
     }
 
 private fun testRabbitMQThroughput(duration: Long) =
-    with(RabbitMQLoader("/rabbitmq.yml", "queue-1")) {
+    with(RabbitMQLoader("/rabbitmq.yml", "queue-2")) {
         testThroughput(this.producer, this.consumer, duration)
     }

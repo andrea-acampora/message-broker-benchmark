@@ -25,16 +25,16 @@ private fun testNodeFailure(producer: BenchmarkProducer<ByteArray>, consumer: Be
     }
 
 private fun testKafkaNodeFailure(duration: Long) =
-    with(KafkaLoader("/kafka-multi-broker.yml", "topic-1")) {
+    with(KafkaLoader("/kafka-multi-broker.yml", "topic-3")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
 private fun testPulsarNodeFailure(duration: Long) =
-    with(PulsarLoader("/pulsar-multi-broker.yml", "topic-1")) {
+    with(PulsarLoader("/pulsar-multi-broker.yml", "topic-3")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
 
 private fun testRabbitMQNodeFailure(duration: Long) =
-    with(RabbitMQLoader("/rabbitmq-multi-broker.yml", "queue-1")) {
+    with(RabbitMQLoader("/rabbitmq-multi-broker.yml", "queue-3")) {
         testNodeFailure(this.producer, this.consumer, duration)
     }
