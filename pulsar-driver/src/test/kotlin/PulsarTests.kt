@@ -15,7 +15,7 @@ class PulsarTests : StringSpec({
     with(PulsarContainer(DockerImageName.parse("apachepulsar/pulsar:latest"))) {
 
         this.start()
-        val loader = PulsarLoader("/pulsar.yml", "topic-test", this.pulsarBrokerUrl)
+        val loader = PulsarLoader("/pulsar-test.yml", "topic-test", this.pulsarBrokerUrl)
 
         "It should be possible to create a Pulsar Producer" {
             loader.producer shouldNotBe null
