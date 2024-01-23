@@ -145,9 +145,6 @@ services:
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - rabbitmq_go_net
-    environment:
-      - "RABBITMQ_DEFAULT_PASS=admin"
-      - "RABBITMQ_DEFAULT_USER=admin"
 
 networks:
   pulsar:
