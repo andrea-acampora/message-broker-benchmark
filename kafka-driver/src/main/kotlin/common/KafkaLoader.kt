@@ -54,15 +54,13 @@ class KafkaLoader(
             producerProperties[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = ByteArraySerializer::class.java.name
 
             with(Admin.create(commonProperties)) {
-                if (this.listTopics().names().get().contains(topicName)) {
-                    this.deleteTopics(arrayListOf(topicName)).all().get()
+                if (!this.listTopics().names().get().contains(topicName)) {
+                    this.createTopics(
+                        arrayListOf(NewTopic(topicName, config.partitions, config.replicationFactor)),
+                    ).values()[topicName]?.get()
                 }
-                this.createTopics(
-                    arrayListOf(NewTopic(topicName, config.partitions, config.replicationFactor)),
-                ).values()[topicName]?.get()
                 this.close()
             }
-
             this.producer = KafkaProducer(producerProperties, topicName)
             this.consumer = KafkaConsumer(consumerProperties, topicName)
         }
