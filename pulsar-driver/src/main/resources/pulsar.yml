@@ -9,7 +9,7 @@ clientConfiguration:
 producerConfiguration:
   batchingEnabled: true
   batchingMaxPublishDelayMs: 1
-  batchingMaxBytes: 131072
+  batchingMaxBytes: 1048576
   blockIfQueueFull: true
   pendingQueueSize: 0
 

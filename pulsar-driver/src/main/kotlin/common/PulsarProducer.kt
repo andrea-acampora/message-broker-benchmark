@@ -22,6 +22,8 @@ class PulsarProducer(
             .batchingMaxPublishDelay(configuration.batchingMaxPublishDelayMs, TimeUnit.MILLISECONDS)
             .batchingMaxBytes(configuration.batchingMaxBytes)
             .blockIfQueueFull(configuration.blockIfQueueFull)
+            .maxPendingMessages(configuration.pendingQueueSize)
+            .batchingMaxMessages(Int.MAX_VALUE)
             .topic(topic)
             .create()
 
