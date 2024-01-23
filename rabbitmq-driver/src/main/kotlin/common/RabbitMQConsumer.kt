@@ -2,6 +2,7 @@ package common
 
 import com.rabbitmq.client.CancelCallback
 import com.rabbitmq.client.Channel
+import com.rabbitmq.client.Connection
 import com.rabbitmq.client.DeliverCallback
 import consumer.BenchmarkConsumer
 import java.nio.charset.Charset
@@ -12,6 +13,7 @@ import java.nio.charset.Charset
 class RabbitMQConsumer(
     private val queueName: String,
     private val channel: Channel,
+    private val connection: Connection,
 ) : BenchmarkConsumer {
 
     override val messagesTimestamp: ArrayList<Long> = arrayListOf()
@@ -34,5 +36,6 @@ class RabbitMQConsumer(
     override fun close() {
         println("[RabbitMQ Consumer] closing..")
         channel.close()
+        connection.close()
     }
 }

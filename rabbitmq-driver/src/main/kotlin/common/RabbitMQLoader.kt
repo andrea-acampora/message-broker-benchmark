@@ -46,7 +46,7 @@ class RabbitMQLoader(
                 mapOf("x-queue-type" to "quorum", "ha-mode" to "all"),
             )
             producer = RabbitMQProducer(queueName, channel)
-            consumer = RabbitMQConsumer(queueName, channel)
+            consumer = RabbitMQConsumer(queueName, channel, connection)
         }
     }
 }
