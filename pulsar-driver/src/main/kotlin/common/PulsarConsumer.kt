@@ -37,5 +37,6 @@ class PulsarConsumer(
     override fun close() {
         println("[Pulsar Consumer] closing..")
         consumer.close()
+        executor.shutdown()
     }
 }
