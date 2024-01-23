@@ -20,6 +20,7 @@ private fun testThroughput(producer: BenchmarkProducer<ByteArray>, consumer: Ben
     ThroughputBenchmark(producer, consumer, duration).let { benchmark ->
         benchmark.runTest()
         producer.close()
+        consumer.close()
         println(benchmark.collectResult())
     }
 
