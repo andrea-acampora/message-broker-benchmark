@@ -19,5 +19,10 @@ cache:
 
 Compile:
   stage: build
-  script: gradle assemble 
+  script: ./gradlew assemble
 
+Check:
+  stage: test
+  script:
+    - ./gradlew detekt
+    - ./gradlew ktlintCheck
