@@ -9,7 +9,7 @@ The benchmark consists in the following tests:
 4. **Node Failure**
 ---
 ## Usage
-In order to start the brokers run the following command in the root of the project:
+In order to start the brokers create the folders `data/zookeeper` and `data/bookkepper` with the right permissions and then run the following command in the root of the project:
  ```bash 
 docker-compose up
  ```
