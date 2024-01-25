@@ -6,6 +6,7 @@ commonConfig: |
   schema.registry.url=http://kafka-schema-registry:8081
 
 producerConfig: |
+  acks=all
   linger.ms=10
   batch.size=1048576
   max.message.bytes=10485880
